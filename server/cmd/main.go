@@ -10,15 +10,19 @@ import (
 	"vessel.com/internal/infrastructure/postgres"
 	"vessel.com/internal/infrastructure/rest"
 
+	"github.com/caarlos0/env/v11"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
 
 func main() {
-	const pgConnection = "postgres://vessel_user:vessel_pass@localhost:5432/vessel_db?sslmode=disable"
-	const jwtSecret = "secret"
+	var cfg config
+	err := env.Parse(&cfg)
+	if err != nil {
+		log.Fatalf("failed to parse config: %s", err)
+	}
 
-	db, err := sql.Open("postgres", pgConnection)
+	db, err := sql.Open("postgres", cfg.PGConnectionString)
 	if err != nil {
 		log.Fatalf("failed to open db: %v", err)
 	}
@@ -32,7 +36,7 @@ func main() {
 
 	vesselRepository := postgres.NewPGVesselRepository(db)
 	userRepository := postgres.NewPGUserRepository(db)
-	jwtGenerator := jwt.NewUserJWTGeneratorImpl([]byte(jwtSecret))
+	jwtGenerator := jwt.NewUserJWTGeneratorImpl([]byte(cfg.JWTSecret))
 
 	authMiddleware := rest.NewAuthMiddleware(jwtGenerator)
 	loginHandler := rest.NewLoginHandler(userRepository, jwtGenerator)
@@ -61,4 +65,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to start server: %v", err)
 	}
+}
+
+type config struct {
+	PGConnectionString string `env:"PG_CONNECTION_STRING,notEmpty"`
+	JWTSecret          string `env:"JWT_SECRET,notEmpty"`
 }
