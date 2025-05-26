@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS vessels (
+    id UUID PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
