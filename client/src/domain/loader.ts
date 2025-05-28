@@ -1,3 +1,3 @@
 export interface LoadingStorePort {
-  setLoading(loading: boolean): void;
+    setLoading(loading: boolean): void;
 }

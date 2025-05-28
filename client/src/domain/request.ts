@@ -1,33 +1,33 @@
 export type RequestType = 'Refueling' | 'Food Order' | 'Port Entry Request';
 
 interface RequestBase {
-  id: string;
-  type: RequestType;
-  createdAt: Date;
-  description?: string;
+    id: string;
+    type: RequestType;
+    createdAt: Date;
+    description?: string;
 }
 
 export interface RefuelingRequest extends RequestBase {
-  type: 'Refueling';
-  liters: number;
+    type: 'Refueling';
+    liters: number;
 }
 
 export interface FoodOrderRequest extends RequestBase {
-  type: 'Food Order';
+    type: 'Food Order';
 }
 
 export interface PortEntryRequest extends RequestBase {
-  type: 'Port Entry Request';
-  portName: string;
+    type: 'Port Entry Request';
+    portName: string;
 }
 
 export type Request = RefuelingRequest | FoodOrderRequest | PortEntryRequest;
 
 export interface RequestRepository {
-  save(request: Request): Promise<void>;
-  getAll(): Promise<Request[]>;
+    save(request: Request): Promise<void>;
+    getAll(): Promise<Request[]>;
 }
 
 export interface RequestStorePort {
-  setRequests(requests: Request[]): void;
+    setRequests(requests: Request[]): void;
 }

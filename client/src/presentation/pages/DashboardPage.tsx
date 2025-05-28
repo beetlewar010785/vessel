@@ -1,45 +1,47 @@
-import { Grid, Card, CardActionArea, CardContent, Typography, SvgIconProps } from '@mui/material';
+import { Grid, Card, CardActionArea, CardContent, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { JSX } from 'react';
+import { getRoutes, RouteItem } from '../route';
+import { useAppContext } from '../../ioc/AppContext';
+import { AuthStatus } from '../store/AuthStore';
 
-export interface DashboardItem {
-  path: string;
-  label: string;
-  icon: (props: SvgIconProps) => JSX.Element;
-}
+export default function DashboardPage() {
+    const navigate = useNavigate();
+    const { authStore } = useAppContext();
 
-export interface DashboardPageProps {
-  items: DashboardItem[];
-}
+    const renderCard = (route: RouteItem) => (
+        <Card key={route.path}>
+            <CardActionArea onClick={() => navigate(route.path)}>
+                <CardContent
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        py: 4,
+                    }}
+                >
+                    {route.icon({ sx: { fontSize: 40, mb: 1 } })}
+                    <Typography variant="h6">{route.label}</Typography>
+                </CardContent>
+            </CardActionArea>
+        </Card>
+    );
 
-export default function DashboardPage({ items }: DashboardPageProps) {
-  const navigate = useNavigate();
+    const renderCards = (routes: RouteItem[]) => {
+        return routes.map((route) => (
+            <Grid key={route.path} size={6}>
+                {renderCard(route)}
+            </Grid>
+        ));
+    };
 
-  const renderCard = (item: DashboardItem) => (
-    <Card key={item.path}>
-      <CardActionArea onClick={() => navigate(item.path)}>
-        <CardContent
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            py: 4,
-          }}
-        >
-          {item.icon({ sx: { fontSize: 40, mb: 1 } })}
-          <Typography variant="h6">{item.label}</Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  );
-
-  return (
-    <Grid container spacing={2}>
-      {items.map((item) => (
-        <Grid key={item.path} size={6}>
-          {renderCard(item)}
+    return (
+        <Grid container spacing={2}>
+            {authStore.authState.value?.status === AuthStatus.AUTHORIZED &&
+                renderCards(
+                    getRoutes(authStore.authState.value.profile.role).filter(
+                        (route) => route.showInDashboard,
+                    ),
+                )}
         </Grid>
-      ))}
-    </Grid>
-  );
+    );
 }

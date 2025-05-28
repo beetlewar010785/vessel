@@ -11,17 +11,17 @@ const REQUEST_KEY_PATH = 'id';
 let dbPromise: Promise<IDBPDatabase> | null = null;
 
 export function getDatabase(): Promise<IDBPDatabase> {
-  if (!dbPromise) {
-    dbPromise = openDB(DB_NAME, DB_VERSION, {
-      upgrade(db) {
-        if (!db.objectStoreNames.contains(REQUEST_STORE_NAME)) {
-          db.createObjectStore(REQUEST_STORE_NAME, { keyPath: REQUEST_KEY_PATH });
-        }
-        if (!db.objectStoreNames.contains(AUTH_STORE_NAME)) {
-          db.createObjectStore(AUTH_STORE_NAME);
-        }
-      },
-    });
-  }
-  return dbPromise;
+    if (!dbPromise) {
+        dbPromise = openDB(DB_NAME, DB_VERSION, {
+            upgrade(db) {
+                if (!db.objectStoreNames.contains(REQUEST_STORE_NAME)) {
+                    db.createObjectStore(REQUEST_STORE_NAME, { keyPath: REQUEST_KEY_PATH });
+                }
+                if (!db.objectStoreNames.contains(AUTH_STORE_NAME)) {
+                    db.createObjectStore(AUTH_STORE_NAME);
+                }
+            },
+        });
+    }
+    return dbPromise;
 }

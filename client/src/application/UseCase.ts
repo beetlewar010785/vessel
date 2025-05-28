@@ -1,3 +1,3 @@
 export interface UseCase<T> {
-  execute(command: T): Promise<void>;
+    execute(command: T): Promise<void>;
 }
