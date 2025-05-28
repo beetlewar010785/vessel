@@ -3,13 +3,13 @@ import { AuthApi, UserProfile } from '../../domain/auth';
 export class AuthApiImpl implements AuthApi {
   constructor(private readonly baseUrl: string) {}
 
-  async login(login: string, password: string): Promise<string> {
+  async login(email: string, password: string): Promise<string> {
     const response = await fetch(`${this.baseUrl}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ login, password }),
+      body: JSON.stringify({ email, password }),
     });
 
     if (response.status === 401) {

@@ -6,13 +6,14 @@ export enum Role {
 
 export interface UserProfile {
   role: Role;
+  email: string;
   name: string;
   surname: string;
   vessel: string | null;
 }
 
 export interface AuthApi {
-  login(login: string, password: string): Promise<string>;
+  login(email: string, password: string): Promise<string>;
   getProfile(token: string): Promise<UserProfile>;
 }
 
@@ -23,7 +24,6 @@ export interface AuthRepository {
 }
 
 export interface AuthStorePort {
-  login(token: string): void;
+  login(profile: UserProfile): void;
   logout(): void;
-  setProfile(profile: UserProfile): void;
 }

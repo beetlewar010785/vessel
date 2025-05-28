@@ -22,7 +22,7 @@ func (r UserID) String() string {
 
 type User struct {
 	ID           UserID
-	Login        string
+	Email        string
 	PasswordHash string
 	Role         Role
 	VesselID     *VesselID
@@ -31,8 +31,8 @@ type User struct {
 }
 
 func NewUser(
-	ID UserID,
-	login string,
+	id UserID,
+	email string,
 	passwordHash string,
 	role Role,
 	vesselID *VesselID,
@@ -40,8 +40,8 @@ func NewUser(
 	surname string,
 ) *User {
 	return &User{
-		ID,
-		login,
+		id,
+		email,
 		passwordHash,
 		role,
 		vesselID,
@@ -51,6 +51,6 @@ func NewUser(
 }
 
 type UserRepository interface {
-	GetByLogin(login string) (*User, error)
+	GetByEmail(email string) (*User, error)
 	Get(id UserID) (*User, error)
 }

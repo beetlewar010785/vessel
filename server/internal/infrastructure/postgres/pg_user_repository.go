@@ -18,18 +18,18 @@ func NewPGUserRepository(db *sql.DB) *PGUserRepository {
 	}
 }
 
-func (r *PGUserRepository) GetByLogin(login string) (*auth.User, error) {
+func (r *PGUserRepository) GetByEmail(email string) (*auth.User, error) {
 	const query = `
-SELECT id, login, password_hash, role, vessel_id, name, surname
-FROM users WHERE login = $1`
+SELECT id, email, password_hash, role, vessel_id, name, surname
+FROM users WHERE email = $1`
 
-	row := r.db.QueryRow(query, login)
+	row := r.db.QueryRow(query, email)
 	return r.queryUser(row)
 }
 
 func (r *PGUserRepository) Get(id auth.UserID) (*auth.User, error) {
 	const query = `
-SELECT id, login, password_hash, role, vessel_id, name, surname
+SELECT id, email, password_hash, role, vessel_id, name, surname
 FROM users WHERE id = $1`
 
 	row := r.db.QueryRow(query, id.String())
@@ -39,7 +39,7 @@ FROM users WHERE id = $1`
 func (r *PGUserRepository) queryUser(row *sql.Row) (*auth.User, error) {
 	var (
 		id           uuid.UUID
-		login        string
+		email        string
 		passwordHash string
 		role         string
 		vesselID     sql.NullString
@@ -47,7 +47,7 @@ func (r *PGUserRepository) queryUser(row *sql.Row) (*auth.User, error) {
 		surname      string
 	)
 
-	err := row.Scan(&id, &login, &passwordHash, &role, &vesselID, &name, &surname)
+	err := row.Scan(&id, &email, &passwordHash, &role, &vesselID, &name, &surname)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, fmt.Errorf("user not found")
@@ -72,7 +72,7 @@ func (r *PGUserRepository) queryUser(row *sql.Row) (*auth.User, error) {
 
 	return auth.NewUser(
 		auth.UserID(id),
-		login,
+		email,
 		passwordHash,
 		domainRole,
 		vesselPtr,

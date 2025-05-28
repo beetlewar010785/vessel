@@ -4,11 +4,11 @@ up
 
 curl -v -X POST http://localhost:8080/login \
 -H "Content-Type: application/json" \
--d '{"login":"tech", "password":"1"}'
+-d '{"email":"tech", "password":"1"}'
 
 curl -v -X POST http://localhost:8080/login \
 -H "Content-Type: application/json" \
--d '{"login":"captain", "password":"2"}'
+-d '{"email":"captain", "password":"2"}'
 
 curl -v http://localhost:8080/profile \
 -H "Content-Type: application/json" \

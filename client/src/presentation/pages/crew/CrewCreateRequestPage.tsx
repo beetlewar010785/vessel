@@ -5,11 +5,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useSnackbar } from '../../ioc/SnackbarContext';
-import { useAppContext } from '../../ioc/AppContext';
-import { Request, RequestType } from '../../domain/request';
+import { useSnackbar } from '../../../ioc/SnackbarContext';
+import { useAppContext } from '../../../ioc/AppContext';
+import { Request, RequestType } from '../../../domain/request';
 
-export default function CreateRequestPage() {
+export default function CrewCreateRequestPage() {
   const requestTypes: RequestType[] = ['Refueling', 'Food Order', 'Port Entry Request'];
 
   const { createRequestUseCase } = useAppContext();

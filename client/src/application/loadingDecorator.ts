@@ -1,6 +1,5 @@
 import { UseCase } from './UseCase';
 import { LoadingStorePort } from '../domain/loader';
-import { sleep } from '../utils/sleep';
 
 export function decorateLoading<T>(
   useCase: UseCase<T>,
@@ -18,7 +17,7 @@ class LoadingUseCaseDecorator<T> implements UseCase<T> {
   async execute(command: T): Promise<void> {
     this.loadingStore.setLoading(true);
     try {
-      await sleep(1000);
+      //await sleep(1000);
       await this.inner.execute(command);
     } finally {
       this.loadingStore.setLoading(false);

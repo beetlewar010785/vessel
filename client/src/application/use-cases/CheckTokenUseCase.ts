@@ -12,8 +12,7 @@ export class CheckTokenUseCase implements UseCase<void> {
     const token = await this.authRepository.getToken();
     if (token) {
       const profile = await this.authApi.getProfile(token);
-      this.authStore.login(token);
-      this.authStore.setProfile(profile);
+      this.authStore.login(profile);
     } else {
       this.authStore.logout();
     }

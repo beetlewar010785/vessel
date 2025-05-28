@@ -13,9 +13,9 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import { useAppContext } from '../../ioc/AppContext';
+import { useAppContext } from '../../../ioc/AppContext';
 import { useNavigate } from 'react-router-dom';
-import { useSnackbar } from '../../ioc/SnackbarContext';
+import { useSnackbar } from '../../../ioc/SnackbarContext';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 export default function LoginPage() {
@@ -23,13 +23,13 @@ export default function LoginPage() {
   const { loginUseCase } = useAppContext();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async () => {
     try {
-      await loginUseCase.execute({ username, password });
+      await loginUseCase.execute({ email, password });
       navigate('/');
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -56,17 +56,17 @@ export default function LoginPage() {
       <Card sx={{ width: 360, boxShadow: 3 }}>
         <CardContent>
           <Typography variant="h5" textAlign="center" gutterBottom>
-            Crew Portal Login
+            Sign In
           </Typography>
 
           <Box display="flex" flexDirection="column" gap={2} mt={2}>
             <FormControl fullWidth>
-              <InputLabel htmlFor="username">Username</InputLabel>
+              <InputLabel htmlFor="email">Email</InputLabel>
               <OutlinedInput
-                id="username"
-                label="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                id="email"
+                label="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 startAdornment={
                   <InputAdornment position="start">
                     <PersonOutlineIcon />

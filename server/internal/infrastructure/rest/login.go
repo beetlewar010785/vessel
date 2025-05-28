@@ -9,7 +9,7 @@ import (
 )
 
 type LoginRequest struct {
-	Login    string `json:"login"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
@@ -35,7 +35,7 @@ func (r *LoginHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	user, err := r.userRepository.GetByLogin(loginRequest.Login)
+	user, err := r.userRepository.GetByEmail(loginRequest.Email)
 	if err != nil {
 		log.Printf("Error getting user: %s", err)
 		http.Error(w, "user not found", http.StatusUnauthorized)

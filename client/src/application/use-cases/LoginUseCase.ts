@@ -2,7 +2,7 @@ import { AuthApi, AuthRepository, AuthStorePort } from '../../domain/auth';
 import { UseCase } from '../UseCase';
 
 export interface LoginCommand {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -14,12 +14,10 @@ export class LoginUseCase implements UseCase<LoginCommand> {
   ) {}
 
   async execute(command: LoginCommand): Promise<void> {
-    const token = await this.authApi.login(command.username, command.password);
-
+    const token = await this.authApi.login(command.email, command.password);
     await this.authRepository.saveToken(token);
-    this.authStore.login(token);
 
     const profile = await this.authApi.getProfile(token);
-    this.authStore.setProfile(profile);
+    this.authStore.login(profile);
   }
 }

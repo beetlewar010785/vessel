@@ -58,6 +58,7 @@ func (r *GetProfileHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) 
 	}
 
 	response := map[string]string{
+		"email":   user.Email,
 		"name":    user.Name,
 		"surname": user.Surname,
 		"role":    jsonRole,

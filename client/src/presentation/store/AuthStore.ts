@@ -1,33 +1,43 @@
 import { signal } from '@preact/signals-react';
 import { AuthStorePort, UserProfile } from '../../domain/auth';
 
-export enum AuthState {
-  UNKNOWN,
+export enum AuthStatus {
   AUTHORIZED,
   UNAUTHORIZED,
 }
 
+export interface AuthStateBase {
+  status: AuthStatus;
+}
+
+export interface AuthStateUnauthorized extends AuthStateBase {
+  status: AuthStatus.UNAUTHORIZED;
+}
+
+export interface AuthStateAuthorized extends AuthStateBase {
+  status: AuthStatus.AUTHORIZED;
+  profile: UserProfile;
+}
+
+export type AuthState = AuthStateUnauthorized | AuthStateAuthorized;
+
 export class AuthStore implements AuthStorePort {
-  private _authState = signal<AuthState>(AuthState.UNKNOWN);
-  private _profile = signal<UserProfile | null>(null);
+  private _authState = signal<AuthState | null>(null);
 
   get authState() {
     return this._authState;
   }
 
-  get profile() {
-    return this._profile;
-  }
-
-  login() {
-    this._authState.value = AuthState.AUTHORIZED;
+  login(profile: UserProfile) {
+    this._authState.value = {
+      status: AuthStatus.AUTHORIZED,
+      profile: profile,
+    };
   }
 
   logout() {
-    this._authState.value = AuthState.UNAUTHORIZED;
-  }
-
-  setProfile(profile: UserProfile | null) {
-    this._profile.value = profile;
+    this._authState.value = {
+      status: AuthStatus.UNAUTHORIZED,
+    };
   }
 }
