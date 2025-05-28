@@ -1,7 +1,7 @@
 import { Breadcrumbs, Link, Typography, Box } from '@mui/material';
 import { useLocation, Link as RouterLink, matchPath } from 'react-router-dom';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { getIcon, RouteItem, RoutePath } from '../route';
+import { RouteItem } from '../route';
 
 export interface BreadcrumbsComponentProps {
     routes: RouteItem[];
@@ -53,8 +53,7 @@ export default function BreadcrumbsComponent({ routes }: BreadcrumbsComponentPro
                     to="/"
                     sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                    {routes
-                        .find((r) => r.path === '/')?.label || ''}
+                    {routes.find((r) => r.path === '/')?.label || ''}
                 </Link>
                 {crumbs}
             </Breadcrumbs>
