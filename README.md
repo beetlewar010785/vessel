@@ -10,8 +10,7 @@ The system is designed to help crews and technical managers manage vessel operat
 
 ### 📄 Example Data
 
-You can find an example of vessel and equipment data in [Example.xlsx](./docs/Example.xlsx).  
-This file illustrates how to represent a vessel, its components, and related operations in spreadsheet form.
+You can find an example of vessel and equipment data in [Download Example.xlsx](https://raw.githubusercontent.com/beetlewar010785/vessel/main/docs/Example.xlsx). This file illustrates how to represent a vessel, its components, and related operations in spreadsheet form.
 
 ### 🚀 Run locally
 
